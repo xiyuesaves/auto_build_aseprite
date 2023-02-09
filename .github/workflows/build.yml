@@ -2,7 +2,7 @@ name: build
 on:
   workflow_dispatch:
 jobs:
-  a:
+  build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
