@@ -17,7 +17,7 @@ jobs:
           curl -LO "https://github.com/aseprite/aseprite/releases/download/$VERSION/Aseprite-$VERSION-Source.zip"
 
           git add .
-          git -c user.email=@ -c user.name=a commit -m a
+          git -c user.email=xiyuesaves@gmail.com -c user.name=xiyuesaves commit -m a
           git push
 
           # unzip -qo Aseprite-$VERSION-Source.zip -d a
