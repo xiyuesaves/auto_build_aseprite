@@ -1,4 +1,4 @@
-name: a
+name: a1
 on:
   workflow_dispatch:
 jobs:
@@ -9,6 +9,7 @@ jobs:
       - name: a
         shell: bash
         run: |
+         
           SKIAVERSION="$(curl https://api.github.com/repos/aseprite/skia/releases/latest | jq -r .tag_name)"
           VERSION="$(curl https://api.github.com/repos/aseprite/aseprite/releases/latest | jq -r .tag_name)"
           mkdir -p a b c
@@ -17,6 +18,10 @@ jobs:
           curl -LO "https://github.com/aseprite/skia/releases/download/$SKIAVERSION/Skia-Windows-Release-x86.zip"
           unzip -qo Skia-Windows-Release-x86.zip -d c
           cd b
+          # 测试代码
+          git add .
+          git commit -m ""
+          git push
           # Aseprite不支持在Windows上用g++编译，PATH中的MinGW会干扰CMake判断。因为找不到对应的Chocolatey包来卸，故以暴力手段处理，反正主机是一次性的。
           for i in c++ cpp gcc g++ cc ar as ld nm ranlib windres gfortran make mingw32-make ccache
           do
@@ -34,5 +39,5 @@ jobs:
           cmd.exe /c b.bat
           7z a a.7z bin
           git add a.7z
-          git -c user.email=@ -c user.name=a commit -m a
+          git commit -m ""
           git push
