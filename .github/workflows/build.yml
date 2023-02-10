@@ -19,9 +19,9 @@ jobs:
           unzip -qo Aseprite-$VERSION-Source.zip -d code
           # 下载魔改后的skia并解压
           curl -LO "https://github.com/aseprite/skia/releases/download/$SKIAVERSION/Skia-Windows-Release-x64.zip"
-          unzip -qo Skia-Windows-Release-x64.zip -d temp
+          unzip -qo Skia-Windows-Release-x64.zip -d dist
           # 进入临时目录
-          cd dist
+          cd temp
           # 删除系统自带的的MinGW
           # Aseprite不支持在Windows上用g++编译，PATH中的MinGW会干扰CMake判断。因为找不到对应的Chocolatey包来卸，故以暴力手段处理，反正主机是一次性的。
           for i in c++ cpp gcc g++ cc ar as ld nm ranlib windres gfortran make mingw32-make ccache
@@ -34,7 +34,7 @@ jobs:
           # 生成bat脚本
           cat <<'EOF' > b.bat
             for /f "usebackq delims=" %%i in (`vswhere.exe -latest -property installationPath`) do call "%%i\VC\Auxiliary\Build\vcvars32.bat"
-            cmake -DSKIA_DIR=..\temp -DSKIA_LIBRARY_DIR=..\temp\out\Release-x64 -DSKIA_LIBRARY=..\temp\out\Release-x64\skia.lib ^
+            cmake -DSKIA_DIR=..\dist -DSKIA_LIBRARY_DIR=..\dist\out\Release-x64 -DSKIA_LIBRARY=..\dist\out\Release-x64\skia.lib ^
               -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -G Ninja ..\code
             ninja aseprite
           EOF
