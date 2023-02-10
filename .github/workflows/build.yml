@@ -26,7 +26,7 @@ jobs:
             done
           done
           cat <<'EOF' > b.bat
-            for /f "usebackq delims=" %%i in (`vswhere.exe -latest -property installationPath`) do call "%%i\VC\Auxiliary\Build\vcvars32.bat"
+            for /f "usebackq delims=" %%i in (`vswhere.exe -latest -property installationPath`) do call "%%i\VC\Auxiliary\Build\vcvars64.bat"
             cmake -DSKIA_DIR=..\c -DSKIA_LIBRARY_DIR=..\c\out\Release-x64 -DSKIA_LIBRARY=..\c\out\Release-x64\skia.lib ^
               -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -G Ninja ..\a
             ninja aseprite
