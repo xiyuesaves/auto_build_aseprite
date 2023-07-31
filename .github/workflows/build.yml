@@ -33,14 +33,14 @@ jobs:
             ninja aseprite
             echo build.bat_end
           EOF
-      - uses: actions/checkout@v3
       - name: build
         shell: cmd
         run: |
           dir
           cd build
           build.bat
-      - uses: actions/upload-artifact@v3
+      - name: upload-build-file
+        uses: actions/upload-artifact@v3
         with:
           name: build_Aseprite
           path: build/bin/
