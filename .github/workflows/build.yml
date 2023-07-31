@@ -17,6 +17,7 @@ jobs:
           unzip -qo Aseprite-$VERSION-Source.zip -d Aseprite
           curl -LO "https://github.com/aseprite/skia/releases/download/$SKIAVERSION/Skia-Windows-Release-x64.zip"
           unzip -qo Skia-Windows-Release-x64.zip -d skia
+          ls
           cd build
           for i in c++ cpp gcc g++ cc ar as ld nm ranlib windres gfortran make mingw32-make ccache
           do
@@ -26,12 +27,12 @@ jobs:
             done
           done
           cat <<'EOF' > build.bat
+            echo build.bat_start
             for /f "usebackq delims=" %%i in (`vswhere.exe -latest -property installationPath`) do call "%%i\VC\Auxiliary\Build\vcvars64.bat"
-            cmake -DSKIA_DIR=..\skia -DSKIA_LIBRARY_DIR=..\skia\out\Release-x64 -DSKIA_LIBRARY=..\skia\out\Release-x64\skia.lib ^
-              -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -G Ninja ..\Aseprite
+            cmake -DSKIA_DIR=..\skia -DSKIA_LIBRARY_DIR=..\skia\out\Release-x64 -DSKIA_LIBRARY=..\skia\out\Release-x64\skia.lib -DCMAKE_BUILD_TYPE=RelWithDebInfo -DLAF_BACKEND=skia -G Ninja ..\Aseprite
             ninja aseprite
+            echo build.bat_end
           EOF
-          ls
           cmd.exe /skia build.bat
       - uses: actions/upload-artifact@v3
         with:
