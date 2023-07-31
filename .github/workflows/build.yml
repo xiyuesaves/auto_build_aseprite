@@ -7,7 +7,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - name: build
+      - name: download_latest_version
         shell: bash
         run: |
           SKIAVERSION="$(curl https://api.github.com/repos/aseprite/skia/releases/latest | jq -r .tag_name)"
@@ -33,7 +33,13 @@ jobs:
             ninja aseprite
             echo build.bat_end
           EOF
-          cmd.exe /skia build.bat
+      - uses: actions/checkout@v3
+      - name: build
+        shell: cmd
+        run: |
+          dir
+          cd build
+          build.bat
       - uses: actions/upload-artifact@v3
         with:
           name: build_Aseprite
